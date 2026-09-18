@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: alusan
+    runtime: node
+    plan: free
+    buildCommand: corepack enable && pnpm install --frozen-lockfile && pnpm build
+    startCommand: pnpm start
+    envVars:
+      - key: NODE_VERSION
+        value: 22.14.0
+      - key: NEXT_PUBLIC_SITE_URL
+        sync: false
