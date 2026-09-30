@@ -1,20 +1,4 @@
-export type Category = {
-  slug: string
-  title: string
-  description: string
-}
-
-export type Product = {
-  code: string
-  name: string
-  category: string
-  description: string
-  spec: string
-  material: string
-  tone: string
-}
-
-export const categories: Category[] = [
+export const categories = [
   {
     slug: 'lestnicy',
     title: 'Лестницы',
@@ -47,11 +31,11 @@ export const categories: Category[] = [
   },
 ]
 
-export const products: Product[] = [
+export const products = [
   {
     code: 'Бытовая серия',
     name: 'Стремянка компактная',
-    category: 'Стремянки',
+    categorySlug: 'stremyanki',
     description: 'Компактная бытовая модель для дома и мастерской',
     spec: 'Четыре ступени · высота один метр двадцать сантиметров',
     material: 'Алюминий 6063 · 1.5 мм',
@@ -60,7 +44,7 @@ export const products: Product[] = [
   {
     code: 'Бытовая серия',
     name: 'Стремянка высокая',
-    category: 'Стремянки',
+    categorySlug: 'stremyanki',
     description: 'Устойчивая высота для ежедневных задач',
     spec: 'Семь ступеней · высота один метр девяносто сантиметров',
     material: 'Алюминий 6063 · 1.5 мм',
@@ -69,7 +53,7 @@ export const products: Product[] = [
   {
     code: 'Приставная серия',
     name: 'Лестница приставная',
-    category: 'Лестницы',
+    categorySlug: 'lestnicy',
     description: 'Приставная лестница для дома и бизнеса',
     spec: 'Восемь ступеней · высота два метра сорок сантиметров',
     material: 'Алюминий 6063 · 2.0 мм',
@@ -78,7 +62,7 @@ export const products: Product[] = [
   {
     code: 'Шарнирная серия',
     name: 'Лестница трансформер',
-    category: 'Шарнирные лестницы',
+    categorySlug: 'sharnirnye-lestnicy',
     description: 'Четыре рабочих положения в одной системе',
     spec: 'Три секции · высота до пяти метров',
     material: 'Алюминий 6063 · 2.0 мм',
@@ -87,7 +71,7 @@ export const products: Product[] = [
   {
     code: 'Профессиональная серия',
     name: 'Вышка мобильная',
-    category: 'Вышки-туры',
+    categorySlug: 'vyshki-tury',
     description: 'Мобильная рабочая платформа с колёсами',
     spec: 'Высота четыре метра · рабочая платформа',
     material: 'Алюминий 6063 · 2.5 мм',
@@ -96,7 +80,7 @@ export const products: Product[] = [
   {
     code: 'Рабочая серия',
     name: 'Подмости рабочие',
-    category: 'Подмости',
+    categorySlug: 'podmosti',
     description: 'Рабочее место для отделочных и монтажных работ',
     spec: 'Высота один метр восемьдесят сантиметров · высокая нагрузка',
     material: 'Алюминий 6063 · 2.5 мм',
@@ -105,7 +89,7 @@ export const products: Product[] = [
   {
     code: 'Комплектующие',
     name: 'Опоры',
-    category: 'Аксессуары',
+    categorySlug: 'accessories',
     description: 'Устойчивые опоры для работы на мягком и неровном грунте',
     spec: 'Комплект четыре штуки',
     material: 'Алюминий 6063',
@@ -114,7 +98,7 @@ export const products: Product[] = [
   {
     code: 'Комплектующие',
     name: 'Поручни',
-    category: 'Аксессуары',
+    categorySlug: 'accessories',
     description: 'Дополнительные поручни для безопасной работы на высоте',
     spec: 'Комплект на одну секцию',
     material: 'Алюминий 6063',
@@ -123,18 +107,10 @@ export const products: Product[] = [
   {
     code: 'Комплектующие',
     name: 'Колёса',
-    category: 'Аксессуары',
+    categorySlug: 'accessories',
     description: 'Поворотные колёса с тормозом для мобильных платформ',
     spec: 'Комплект четыре штуки',
     material: 'Сталь · полиуретан',
     tone: 'from-[#cbc6bd] via-[#f2efe8] to-[#948d7d]',
   },
 ]
-
-export function getCategoryBySlug(slug: string) {
-  return categories.find((category) => category.slug === slug)
-}
-
-export function getProductsByCategoryTitle(title: string) {
-  return products.filter((product) => product.category === title)
-}

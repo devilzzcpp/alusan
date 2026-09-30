@@ -1,73 +1,22 @@
-'use client'
-
-import { useState } from 'react'
-import Link from 'next/link'
-import { ArrowUpRight, Menu, MoveUpRight, Search, ShieldCheck, X } from 'lucide-react'
+import { ArrowUpRight, MoveUpRight, Search, ShieldCheck } from 'lucide-react'
 import { SiteFooter } from '@/components/site-footer'
+import { HomeHeader } from '@/components/home-header'
 import { Container } from '@/components/container'
 import { SectionEyebrow } from '@/components/section-eyebrow'
 import { ProductCard } from '@/components/product-card'
 import { LeadForm } from '@/components/lead-form'
-import { products } from '@/lib/data/products'
+import { getProductsByNames } from '@/lib/products'
 
-const navLinks = [
-  { href: '/catalog', label: 'Каталог' },
-  { href: '/about', label: 'О компании' },
-  { href: '/documents', label: 'Документы' },
-  { href: '/contacts', label: 'Контакты' },
-]
-
-const homeProducts = [
-  products.find((product) => product.name === 'Лестница трансформер')!,
-  products.find((product) => product.name === 'Стремянка высокая')!,
-  products.find((product) => product.name === 'Вышка мобильная')!,
-]
-
-export default function HomePage() {
-  const [menuOpen, setMenuOpen] = useState(false)
+export default async function HomePage() {
+  const homeProducts = await getProductsByNames([
+    'Лестница трансформер',
+    'Стремянка высокая',
+    'Вышка мобильная',
+  ])
 
   return (
     <main className="min-h-screen overflow-hidden bg-brand-paper text-brand-ink">
-      <header className="fixed inset-x-0 top-0 z-50 border-b border-white/15 bg-brand-surface-1/85 text-white backdrop-blur-xl">
-        <Container className="flex h-[76px] items-center justify-between">
-          <Link href="#top" aria-label="АЛЮСАН — на главную">
-            <img src="/brand/logo-white.svg" alt="АЛЮСАН" className="h-9 w-auto" />
-          </Link>
-          <nav className="hidden items-center gap-8 text-sm font-medium tracking-[-0.02em] text-white/70 lg:flex">
-            {navLinks.map((link) => (
-              <Link key={link.href} href={link.href} className="transition hover:text-brand-lime">
-                {link.label}
-              </Link>
-            ))}
-          </nav>
-          <div className="flex items-center gap-3">
-            <a
-              href="#contacts"
-              className="hidden rounded-full bg-brand-lime px-5 py-3 text-sm font-semibold tracking-[-0.02em] text-brand-ink transition hover:bg-white sm:block"
-            >
-              Обсудить проект <ArrowUpRight className="ml-2 inline" size={14} />
-            </a>
-            <button
-              onClick={() => setMenuOpen(!menuOpen)}
-              className="rounded-full border border-white/20 p-3 lg:hidden"
-              aria-label={menuOpen ? 'Закрыть меню' : 'Открыть меню'}
-            >
-              {menuOpen ? <X size={18} /> : <Menu size={18} />}
-            </button>
-          </div>
-        </Container>
-        {menuOpen && (
-          <div className="border-t border-white/10 bg-brand-surface-1 px-5 py-6 lg:hidden">
-            <div className="flex flex-col gap-5 text-sm uppercase tracking-widest">
-              {navLinks.map((link) => (
-                <Link key={link.href} onClick={() => setMenuOpen(false)} href={link.href}>
-                  {link.label}
-                </Link>
-              ))}
-            </div>
-          </div>
-        )}
-      </header>
+      <HomeHeader />
 
       <section
         id="top"

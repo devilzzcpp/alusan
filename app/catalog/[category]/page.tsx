@@ -1,15 +1,17 @@
 import Link from 'next/link'
+import { notFound } from 'next/navigation'
 import { SiteHeader } from '@/components/site-header'
 import { Container } from '@/components/container'
 import { SectionEyebrow } from '@/components/section-eyebrow'
 import { ProductCard } from '@/components/product-card'
 import { ArrowUpRight, Check, Download } from 'lucide-react'
-import { categories, getCategoryBySlug, getProductsByCategoryTitle } from '@/lib/data/products'
+import { getCategories, getCategoryBySlug, getProductsByCategorySlug } from '@/lib/products'
 
 export default async function CategoryPage({ params }: { params: Promise<{ category: string }> }) {
   const { category: slug } = await params
-  const category = getCategoryBySlug(slug) ?? categories[0]
-  const categoryProducts = getProductsByCategoryTitle(category.title)
+  const category = await getCategoryBySlug(slug)
+  if (!category) notFound()
+  const categoryProducts = await getProductsByCategorySlug(slug)
 
   return (
     <main className="min-h-screen bg-brand-paper text-brand-ink">
@@ -28,7 +30,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
           <div className="mt-20 grid gap-3 border-t border-brand-border pt-5 md:grid-cols-3">
             {categoryProducts.map((product, index) => (
               <ProductCard
-                key={product.name}
+                key={product.id}
                 product={product}
                 variant="category"
                 label={`${slug.toUpperCase()} / 0${index + 1}`}
@@ -61,13 +63,15 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
   )
 }
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  const categories = await getCategories()
   return categories.map((category) => ({ category: category.slug }))
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ category: string }> }) {
   const { category: slug } = await params
-  return { title: `${getCategoryBySlug(slug)?.title ?? 'Каталог'} — alusan` }
+  const category = await getCategoryBySlug(slug)
+  return { title: `${category?.title ?? 'Каталог'} — alusan` }
 }
 
 export const dynamicParams = false

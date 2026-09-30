@@ -1,5 +1,5 @@
 import { ArrowUpRight } from 'lucide-react'
-import type { Product } from '@/lib/data/products'
+import type { Product } from '@/lib/products'
 
 type ProductCardProps = {
   product: Product

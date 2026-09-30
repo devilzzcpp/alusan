@@ -19,6 +19,9 @@ export function SiteFooter() {
           <Link href="/about" className="hover:text-white">
             О компании
           </Link>
+          <Link href="/articles" className="hover:text-white">
+            Статьи
+          </Link>
           <Link href="/documents" className="hover:text-white">
             Документы
           </Link>
