@@ -1,56 +1,49 @@
 import Link from 'next/link'
-import { SiteBrand } from '@/components/site-brand'
-import { ArrowUpRight, ChevronLeft } from 'lucide-react'
+import { SiteFooter } from '@/components/site-footer'
+import { SiteHeader } from '@/components/site-header'
+import { Container } from '@/components/container'
+import { SectionEyebrow } from '@/components/section-eyebrow'
+import { ArrowUpRight } from 'lucide-react'
+
+const specs = [
+  { label: '01 / PRECISION', value: '0.8', unit: 'mm', caption: 'точность соединения' },
+  { label: '02 / MATERIAL', value: 'AL', unit: '6063', caption: 'алюминиевый профиль' },
+  { label: '03 / CONTROL', value: '100', unit: '%', caption: 'контроль каждого изделия' },
+]
 
 export default function TechnologyPage() {
   return (
-    <main className="min-h-screen bg-[#15191d] text-white">
-      <header className="flex items-center justify-between border-b border-white/10 px-5 py-5 lg:px-10">
-        <SiteBrand dark />
-        <Link
-          href="/"
-          className="flex items-center gap-2 text-xs uppercase tracking-[0.16em] text-white/55"
-        >
-          <ChevronLeft size={15} /> На главную
-        </Link>
-      </header>
-      <section className="mx-auto max-w-[1440px] px-5 py-24 lg:px-10 lg:py-36">
-        <p className="mb-5 font-mono text-xs text-[#c9ff3d]">02 / СИСТЕМА</p>
-        <h1 className="max-w-5xl text-6xl font-medium leading-[.88] tracking-[-0.08em] sm:text-9xl">
-          Инженерия,
-          <br />
-          <span className="text-[#72797b]">которую видно.</span>
-        </h1>
-        <div className="mt-24 grid gap-px bg-white/10 sm:grid-cols-3">
-          <div className="bg-[#15191d] p-7">
-            <p className="font-mono text-xs text-white/40">01 / PRECISION</p>
-            <p className="mt-20 text-6xl tracking-[-0.08em]">
-              0.8<span className="text-[#c9ff3d]">mm</span>
-            </p>
-            <p className="mt-3 text-sm text-white/45">точность соединения</p>
+    <main className="min-h-screen bg-brand-paper text-brand-ink">
+      <SiteHeader backHref="/" backLabel="На главную" />
+      <section className="py-24 lg:py-36">
+        <Container>
+          <SectionEyebrow className="mb-5 text-brand-muted">02 / СИСТЕМА</SectionEyebrow>
+          <h1 className="heading-1 max-w-5xl">
+            Инженерия,
+            <br />
+            <span className="text-brand-muted-faintest">которую видно.</span>
+          </h1>
+          <div className="mt-24 grid gap-px bg-brand-border sm:grid-cols-3">
+            {specs.map((spec) => (
+              <div key={spec.label} className="border border-brand-border bg-white p-7">
+                <p className="font-mono text-xs text-brand-muted-faintest">{spec.label}</p>
+                <p className="mt-20 text-6xl tracking-[-0.08em]">
+                  {spec.value}
+                  <span className="text-brand-blue">{spec.unit}</span>
+                </p>
+                <p className="mt-3 text-sm text-brand-muted-dim">{spec.caption}</p>
+              </div>
+            ))}
           </div>
-          <div className="bg-[#15191d] p-7">
-            <p className="font-mono text-xs text-white/40">02 / MATERIAL</p>
-            <p className="mt-20 text-6xl tracking-[-0.08em]">
-              AL<span className="text-[#c9ff3d]">6063</span>
-            </p>
-            <p className="mt-3 text-sm text-white/45">алюминиевый профиль</p>
-          </div>
-          <div className="bg-[#15191d] p-7">
-            <p className="font-mono text-xs text-white/40">03 / CONTROL</p>
-            <p className="mt-20 text-6xl tracking-[-0.08em]">
-              100<span className="text-[#c9ff3d]">%</span>
-            </p>
-            <p className="mt-3 text-sm text-white/45">контроль каждого изделия</p>
-          </div>
-        </div>
-        <Link
-          href="/about"
-          className="mt-12 inline-flex items-center gap-3 text-xs uppercase tracking-[0.16em] text-[#c9ff3d]"
-        >
-          Узнать о компании <ArrowUpRight size={16} />
-        </Link>
+          <Link
+            href="/about"
+            className="mt-12 inline-flex items-center gap-3 text-xs uppercase tracking-[0.16em] text-brand-blue"
+          >
+            Узнать о компании <ArrowUpRight size={16} />
+          </Link>
+        </Container>
       </section>
+      <SiteFooter />
     </main>
   )
 }

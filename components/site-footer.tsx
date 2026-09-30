@@ -1,10 +1,11 @@
 import Link from 'next/link'
+import { Container } from '@/components/container'
 import { SiteBrand } from '@/components/site-brand'
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-white/10 bg-[#101317] px-5 py-10 text-white lg:px-10">
-      <div className="mx-auto grid max-w-[1440px] gap-10 md:grid-cols-[1.4fr_1fr_1fr]">
+    <footer className="border-t border-white/10 bg-brand-surface-1 py-10 text-white">
+      <Container className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr]">
         <div>
           <SiteBrand dark />
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/45">
@@ -33,10 +34,10 @@ export function SiteFooter() {
             hello@alusan.ru
           </a>
         </div>
-      </div>
-      <div className="mx-auto mt-10 max-w-[1440px] border-t border-white/10 pt-4 text-xs text-white/30">
+      </Container>
+      <Container className="mt-10 border-t border-white/10 pt-4 text-xs text-white/30">
         alusan · Ростов-на-Дону
-      </div>
+      </Container>
     </footer>
   )
 }

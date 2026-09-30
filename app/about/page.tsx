@@ -1,7 +1,9 @@
 import Link from 'next/link'
 import { SiteFooter } from '@/components/site-footer'
-import { SiteBrand } from '@/components/site-brand'
-import { ArrowUpRight, ArrowLeft, Check, Factory, ShieldCheck, Sparkles } from 'lucide-react'
+import { SiteHeader } from '@/components/site-header'
+import { Container } from '@/components/container'
+import { SectionEyebrow } from '@/components/section-eyebrow'
+import { ArrowUpRight, Factory, ShieldCheck, Sparkles } from 'lucide-react'
 
 const values = [
   {
@@ -23,39 +25,24 @@ const values = [
 
 export default function AboutPage() {
   return (
-    <main className="min-h-screen overflow-hidden bg-[#101417] text-white">
-      <header className="border-b border-white/10 px-5 py-5 lg:px-10">
-        <div className="mx-auto flex max-w-[1440px] items-center justify-between">
-          <SiteBrand dark />
-          <div className="flex items-center gap-5">
-            <Link
-              href="/catalog"
-              className="hidden text-sm text-white/55 transition hover:text-[#c9ff3d] sm:block"
-            >
-              Каталог
-            </Link>
-            <Link
-              href="/"
-              className="flex items-center gap-2 text-sm text-white/55 transition hover:text-white"
-            >
-              <ArrowLeft size={15} /> На главную
-            </Link>
-          </div>
-        </div>
-      </header>
+    <main className="min-h-screen overflow-hidden bg-brand-surface-1 text-white">
+      <SiteHeader
+        variant="dark"
+        links={[{ href: '/catalog', label: 'Каталог' }]}
+        backHref="/"
+        backLabel="На главную"
+      />
 
-      <section className="relative isolate overflow-hidden px-5 pb-24 pt-20 lg:px-10 lg:pb-36 lg:pt-32">
+      <section className="relative isolate overflow-hidden pb-24 pt-20 lg:pb-36 lg:pt-32">
         <img
           src="/hero-ladders.png"
           alt="Алюминиевая лестница в архитектурном пространстве"
           className="absolute inset-0 -z-20 size-full object-cover opacity-30"
         />
-        <div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,#101417_8%,rgba(16,20,23,.82)_48%,rgba(16,20,23,.2)),linear-gradient(0deg,#101417,transparent_65%)]" />
-        <div className="mx-auto max-w-[1440px]">
-          <p className="mb-8 text-sm font-semibold uppercase tracking-[0.2em] text-[#c9ff3d]">
-            О компании
-          </p>
-          <h1 className="max-w-5xl text-[clamp(4rem,10vw,10rem)] font-medium leading-[.9] tracking-[-.04em]">
+        <div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,#12181f_8%,rgba(18,24,31,.82)_48%,rgba(18,24,31,.2)),linear-gradient(0deg,#12181f,transparent_65%)]" />
+        <Container>
+          <SectionEyebrow className="mb-8 text-brand-lime">О компании</SectionEyebrow>
+          <h1 className="max-w-5xl text-[clamp(3.5rem,7vw,6.5rem)] leading-[.9] tracking-[-.04em]">
             Высота
             <br />
             <span className="text-white/35">с характером.</span>
@@ -70,46 +57,42 @@ export default function AboutPage() {
               лишнего шума — только точная вещь.
             </p>
           </div>
-        </div>
+        </Container>
       </section>
 
-      <section className="bg-[#c9ff3d] px-5 py-20 text-[#101417] lg:px-10 lg:py-28">
-        <div className="mx-auto grid max-w-[1440px] gap-12 lg:grid-cols-[.8fr_1.2fr]">
+      <section className="bg-brand-blue-dark py-20 text-white lg:py-28">
+        <Container className="grid gap-12 lg:grid-cols-[.8fr_1.2fr]">
           <div>
-            <p className="mb-5 text-sm font-bold uppercase tracking-[0.2em] text-[#52651c]">
-              Как мы работаем
-            </p>
-            <h2 className="max-w-xl text-5xl font-medium leading-[.92] tracking-[-.04em] sm:text-8xl">
+            <SectionEyebrow className="mb-5 text-brand-lime">Как мы работаем</SectionEyebrow>
+            <h2 className="heading-2 max-w-xl">
               Точная вещь
               <br />
-              <span className="text-white">начинается здесь.</span>
+              <span className="text-brand-lime">начинается здесь.</span>
             </h2>
           </div>
-          <div className="grid gap-px bg-[#52651c]/30 sm:grid-cols-3">
+          <div className="grid gap-px bg-white/15 sm:grid-cols-3">
             {values.map(({ icon: Icon, title, text }) => (
-              <article key={title} className="bg-[#c9ff3d] p-6">
+              <article key={title} className="bg-brand-blue-dark p-6">
                 <Icon size={24} strokeWidth={1.5} />
                 <h3 className="mt-14 text-xl font-semibold tracking-[-.04em]">{title}</h3>
-                <p className="mt-4 text-sm leading-relaxed text-[#52651c]">{text}</p>
+                <p className="mt-4 text-sm leading-relaxed text-white/70">{text}</p>
               </article>
             ))}
           </div>
-        </div>
+        </Container>
       </section>
 
-      <section className="bg-[#f1efe9] px-5 py-20 text-[#15171a] lg:px-10 lg:py-28">
-        <div className="mx-auto grid max-w-[1440px] gap-12 lg:grid-cols-[1.1fr_.9fr]">
+      <section className="bg-brand-paper-alt py-20 text-brand-ink lg:py-28">
+        <Container className="grid gap-12 lg:grid-cols-[1.1fr_.9fr]">
           <div>
-            <p className="mb-5 text-sm font-bold uppercase tracking-[0.2em] text-[#6f792e]">
-              Наш подход
-            </p>
-            <h2 className="max-w-2xl text-5xl font-medium leading-[.92] tracking-[-.04em] sm:text-8xl">
+            <SectionEyebrow className="mb-5 text-brand-muted">Наш подход</SectionEyebrow>
+            <h2 className="heading-2 max-w-2xl">
               Не продаём
               <br />
-              <span className="text-[#858a87]">случайные решения.</span>
+              <span className="text-brand-muted-faintest">случайные решения.</span>
             </h2>
           </div>
-          <div className="self-end text-lg leading-relaxed text-[#626566]">
+          <div className="self-end text-lg leading-relaxed text-brand-muted-dim">
             <p>
               Подбираем конструкцию под задачу, пространство и ритм работы. Поэтому в каталоге есть
               и компактные модели для дома, и серьёзные системы для производства.
@@ -117,19 +100,19 @@ export default function AboutPage() {
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
                 href="/catalog"
-                className="inline-flex items-center gap-3 rounded-full bg-[#15171a] px-5 py-3 font-semibold text-white transition hover:bg-[#c9ff3d] hover:text-[#15171a]"
+                className="inline-flex items-center gap-3 rounded-full bg-brand-ink px-5 py-3 font-semibold text-white transition hover:bg-brand-lime hover:text-brand-ink"
               >
                 Смотреть каталог <ArrowUpRight size={16} />
               </Link>
               <Link
                 href="/documents"
-                className="inline-flex items-center gap-3 rounded-full border border-[#15171a]/20 px-5 py-3 font-semibold transition hover:border-[#15171a]"
+                className="inline-flex items-center gap-3 rounded-full border border-brand-ink/20 px-5 py-3 font-semibold transition hover:border-brand-ink"
               >
                 Документы и сертификаты <ArrowUpRight size={16} />
               </Link>
             </div>
           </div>
-        </div>
+        </Container>
       </section>
 
       <SiteFooter />

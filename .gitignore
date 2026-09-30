@@ -7,9 +7,33 @@ __v0_jsx-dev-runtime.ts
 .vercel/
 
 # Environment variables
+.env
+.env.production
 .env*.local
 
 # Common ignores
 node_modules
 .next/
 .DS_Store
+Thumbs.db
+
+# Build artifacts
+*.tsbuildinfo
+out/
+build/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor
+.vscode/
+.idea/
+
+# Client-provided raw design sources (docx/ai/cdr/pdf/etc.) — reference only,
+# not meant for production use. Final selected assets live in public/brand/.
+# Our own planning docs (project map, roadmap) stay tracked.
+workflows/*
+!workflows/*.md

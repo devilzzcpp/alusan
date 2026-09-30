@@ -5,6 +5,22 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --color-brand-lime: var(--brand-lime);
+  --color-brand-lime-ink: var(--brand-lime-ink);
+  --color-brand-blue: var(--brand-blue);
+  --color-brand-blue-dark: var(--brand-blue-dark);
+  --color-brand-ink: var(--brand-ink);
+  --color-brand-surface-1: var(--brand-surface-1);
+  --color-brand-surface-2: var(--brand-surface-2);
+  --color-brand-surface-3: var(--brand-surface-3);
+  --color-brand-paper: var(--brand-paper);
+  --color-brand-paper-alt: var(--brand-paper-alt);
+  --color-brand-border: var(--brand-border);
+  --color-brand-border-strong: var(--brand-border-strong);
+  --color-brand-muted: var(--brand-muted);
+  --color-brand-muted-dim: var(--brand-muted-dim);
+  --color-brand-muted-faint: var(--brand-muted-faint);
+  --color-brand-muted-faintest: var(--brand-muted-faintest);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -47,6 +63,22 @@
 
 :root {
   color-scheme: light;
+  --brand-lime: #9bc538;
+  --brand-lime-ink: #46600f;
+  --brand-blue: #044b8a;
+  --brand-blue-dark: #033a6b;
+  --brand-ink: #12181f;
+  --brand-surface-1: #0a2036;
+  --brand-surface-2: #081a2c;
+  --brand-surface-3: #0c2740;
+  --brand-paper: #ffffff;
+  --brand-paper-alt: #eef2f5;
+  --brand-border: #dde3e8;
+  --brand-border-strong: #c7ced6;
+  --brand-muted: #5c8a1e;
+  --brand-muted-dim: #57626f;
+  --brand-muted-faint: #5c6773;
+  --brand-muted-faintest: #8992a0;
   --background: oklch(0.965 0.012 88);
   --foreground: oklch(0.16 0.015 260);
   --card: oklch(1 0 0);
@@ -162,20 +194,21 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: Arial, Helvetica, sans-serif;
-    background: #f1efe9;
+    font-family: var(--font-body), Arial, Helvetica, sans-serif;
+    background: #ffffff;
   }
   h1,
   h2,
   h3 {
+    font-family: var(--font-body), Arial, Helvetica, sans-serif;
     text-wrap: balance;
     font-weight: 500;
-    letter-spacing: -0.035em !important;
-    line-height: 0.98 !important;
+    letter-spacing: -0.02em;
+    line-height: 0.9;
   }
   ::selection {
-    background: #c9ff3d;
-    color: #15171a;
+    background: #9bc538;
+    color: #12181f;
   }
 }
 
@@ -189,7 +222,17 @@
 }
 
 .font-mono {
-  font-family: 'Courier New', Courier, monospace;
+  font-family: var(--font-mono-brand), 'JetBrains Mono', monospace;
+}
+
+/* Heading size scale — единые размеры вместо разных text-* на каждой странице.
+   Начертание/трекинг/интерлиньяж уже заданы в base-правиле для h1/h2/h3 выше. */
+.heading-1 {
+  @apply text-6xl sm:text-7xl;
+}
+
+.heading-2 {
+  @apply text-5xl sm:text-6xl;
 }
 
 button,
