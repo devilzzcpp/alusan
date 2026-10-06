@@ -22,7 +22,7 @@ export function ProductGallery({
           <img
             src={images[active]}
             alt={name}
-            className="max-h-full max-w-full rounded-[2px] object-cover"
+            className="max-h-full max-w-full rounded-[2px] object-contain"
           />
         ) : (
           <div className="h-64 w-36 rotate-12 rounded-[48%] border-[6px] border-[#b4c1c4] bg-gradient-to-r from-white/70 via-[#8799a0] to-white/70">

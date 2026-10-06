@@ -26,12 +26,10 @@ export function ProductCard({
     if (variant === 'teaser') {
       return (
         <article
-          className={`group relative overflow-hidden rounded-[2px] bg-gradient-to-br ${product.tone} p-5 ${
-            featured ? 'md:col-span-2 md:row-span-2' : ''
-          }`}
+          className={`group relative h-full overflow-hidden rounded-[2px] bg-gradient-to-br ${product.tone} p-5`}
         >
           <div
-            className={`relative flex min-h-[260px] flex-col justify-between ${featured ? 'md:min-h-[540px]' : ''}`}
+            className={`relative flex h-full min-h-[260px] flex-col justify-between ${featured ? 'md:min-h-[540px]' : ''}`}
           >
             <div className="flex justify-between font-mono text-[10px] text-brand-ink/60">
               <span>Коллекция</span>
@@ -42,7 +40,9 @@ export function ProductCard({
               <img
                 src={hero}
                 alt={product.name}
-                className="mx-auto mt-7 h-32 w-32 rounded-[2px] object-cover transition duration-500 group-hover:scale-105 md:h-48 md:w-48"
+                className={`mx-auto mt-7 h-44 w-44 rounded-[2px] object-contain transition duration-500 group-hover:scale-105 ${
+                  featured ? 'md:h-[28rem] md:w-[28rem]' : 'md:h-64 md:w-64'
+                }`}
               />
             ) : (
               <div className="mx-auto mt-7 h-32 w-16 rotate-[18deg] rounded-[48%] border-[5px] border-[#65747b]/60 bg-gradient-to-r from-white/70 via-[#8799a0] to-white/70 shadow-[10px_22px_22px_rgba(20,35,40,.23)] transition duration-500 group-hover:rotate-[25deg] group-hover:scale-110 md:h-48 md:w-24">
@@ -67,7 +67,7 @@ export function ProductCard({
 
     if (variant === 'category') {
       return (
-        <article className="group min-h-[360px] bg-gradient-to-br from-[#c7d3d2] via-[#eef1eb] to-[#84949a] p-5">
+        <article className="group flex h-full min-h-[360px] flex-col bg-gradient-to-br from-[#c7d3d2] via-[#eef1eb] to-[#84949a] p-5">
           <div className="flex justify-between font-mono text-xs text-brand-ink/55">
             <span>{label}</span>
             <ArrowUpRight size={18} />
@@ -76,7 +76,7 @@ export function ProductCard({
             <img
               src={hero}
               alt={product.name}
-              className="mx-auto mt-12 h-44 w-44 rounded-[2px] object-cover transition duration-500 group-hover:scale-105"
+              className="mx-auto mt-12 h-64 w-64 rounded-[2px] object-contain transition duration-500 group-hover:scale-105"
             />
           ) : (
             <div className="mx-auto mt-12 h-44 w-24 rotate-[17deg] rounded-[45%] border-[5px] border-[#64747b]/60 bg-gradient-to-r from-white/70 via-[#84979c] to-white/70 shadow-xl transition group-hover:rotate-[24deg] group-hover:scale-105">
@@ -91,7 +91,7 @@ export function ProductCard({
     }
 
     return (
-      <article className="group flex min-h-[410px] flex-col justify-between bg-brand-surface-3 p-6 text-white">
+      <article className="group flex h-full min-h-[410px] flex-col justify-between bg-brand-surface-3 p-6 text-white">
         <div className="flex justify-between font-mono text-xs text-white/45">
           <span>{product.code}</span>
           <span>{product.category}</span>
@@ -100,7 +100,7 @@ export function ProductCard({
           <img
             src={hero}
             alt={product.name}
-            className="mx-auto my-8 h-44 w-44 rounded-[2px] object-cover transition duration-500 group-hover:scale-105"
+            className="mx-auto my-8 h-64 w-64 rounded-[2px] object-contain transition duration-500 group-hover:scale-105"
           />
         ) : (
           <div
@@ -134,7 +134,7 @@ export function ProductCard({
             openQuickView()
           }
         }}
-        className="cursor-pointer"
+        className={`h-full cursor-pointer ${featured ? 'md:row-span-2' : ''}`}
         aria-label={`Посмотреть товар: ${product.name}`}
       >
         {card}

@@ -50,7 +50,7 @@ export function ProductQuickView({ product, onClose }: { product: Product; onClo
             <img
               src={image}
               alt={product.name}
-              className="max-h-[320px] w-full rounded-[2px] object-cover"
+              className="max-h-[320px] max-w-full rounded-[2px] object-contain"
             />
           ) : (
             <div className="h-56 w-32 rotate-12 rounded-[48%] border-[5px] border-[#b4c1c4] bg-gradient-to-r from-white/70 via-[#8799a0] to-white/70">

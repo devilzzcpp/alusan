@@ -87,13 +87,8 @@ export default async function HomePage() {
             </p>
           </div>
           <div className="grid gap-4 md:grid-cols-3">
-            {homeProducts.map((product, index) => (
-              <ProductCard
-                key={product.name}
-                product={product}
-                variant="teaser"
-                featured={index === 0}
-              />
+            {homeProducts.map((product) => (
+              <ProductCard key={product.name} product={product} variant="teaser" />
             ))}
           </div>
         </Container>
