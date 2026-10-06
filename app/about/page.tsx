@@ -3,25 +3,42 @@ import { SiteFooter } from '@/components/site-footer'
 import { SiteHeader } from '@/components/site-header'
 import { Container } from '@/components/container'
 import { SectionEyebrow } from '@/components/section-eyebrow'
-import { ArrowUpRight, Factory, ShieldCheck, Sparkles } from 'lucide-react'
+import { ArrowUpRight } from 'lucide-react'
 
-const values = [
+const advantages = [
   {
-    icon: Factory,
-    title: 'Производим сами',
-    text: 'Контролируем путь изделия от листа алюминия до готовой лестницы.',
+    title: 'Свежий взгляд на привычные вещи',
+    text: 'Мы не копируем старые решения, а проектируем продукцию с учётом современных требований к удобству, безопасности и эргономике.',
   },
   {
-    icon: ShieldCheck,
-    title: 'Держим качество',
-    text: 'Проверяем соединения, геометрию и устойчивость каждой серии.',
+    title: 'Технологичность',
+    text: 'Производство на автоматизированном оборудовании и строгий контроль на каждом этапе — это гарантия надёжности.',
   },
   {
-    icon: Sparkles,
-    title: 'Думаем о форме',
-    text: 'Создаём вещи, которые не хочется прятать в кладовой.',
+    title: 'Гибкость и скорость',
+    text: 'Большие склады и отлаженные процессы позволяют отгружать любые объёмы в сжатые сроки.',
+  },
+  {
+    title: 'Широкий выбор',
+    text: 'Более 100 моделей: от простых бытовых до профессиональных решений.',
+  },
+  {
+    title: 'Партнёрский подход',
+    text: 'Мы выстраиваем долгосрочные отношения и учитываем специфику задач каждого клиента.',
+  },
+  {
+    title: 'Подтверждённое качество',
+    text: 'Продукция регулярно проходит лабораторные испытания, результаты подтверждены сертификатами добровольной сертификации.',
+  },
+  {
+    title: 'Поддержка партнёров',
+    text: 'Предоставляем контент для сайтов, каталоги, помогаем с локальной рекламой и участвуем в совместных акциях.',
   },
 ]
+
+// Сам текст на странице хардкод, но рендерится <SiteFooter /> (он читает
+// настройки сайта из БД) — тот же build-time-без-БД нюанс, см. app/page.tsx.
+export const dynamic = 'force-dynamic'
 
 export default function AboutPage() {
   return (
@@ -35,9 +52,9 @@ export default function AboutPage() {
 
       <section className="relative isolate overflow-hidden pb-24 pt-20 lg:pb-36 lg:pt-32">
         <img
-          src="/hero-ladders.png"
+          src="/hero-ladders.jpg"
           alt="Алюминиевая лестница в архитектурном пространстве"
-          className="absolute inset-0 -z-20 size-full object-cover opacity-30"
+          className="absolute inset-0 -z-20 size-full object-cover object-[80%_center] opacity-30"
         />
         <div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,#12181f_8%,rgba(18,24,31,.82)_48%,rgba(18,24,31,.2)),linear-gradient(0deg,#12181f,transparent_65%)]" />
         <Container>
@@ -49,33 +66,42 @@ export default function AboutPage() {
           </h1>
           <div className="mt-14 grid max-w-4xl gap-8 border-t border-white/20 pt-6 md:grid-cols-[1fr_.7fr]">
             <p className="text-2xl leading-tight text-white/90">
-              alusan делает лестницы, которые выдерживают работу и выглядят как часть современной
-              архитектуры.
+              ООО «АЛЮСАН» — современное предприятие, которое создаёт лестничную технику с учётом
+              актуальных задач пользователей. Мы выпускаем алюминиевые и стальные стремянки,
+              лестницы, вышки-туры и подмости — для бытового и профессионального применения.
             </p>
             <p className="text-sm leading-relaxed text-white/45">
-              Мы соединяем производственную дисциплину, честные материалы и внимание к деталям. Без
-              лишнего шума — только точная вещь.
+              Производство построено вокруг автоматизации: это позволяет быстро реагировать на
+              запросы рынка и держать стабильное качество. Мы тщательно контролируем сырьё и
+              комплектующие, а также проверяем готовую продукцию на соответствие нормативам.
             </p>
           </div>
         </Container>
       </section>
 
       <section className="bg-brand-blue-dark py-20 text-white lg:py-28">
-        <Container className="grid gap-12 lg:grid-cols-[.8fr_1.2fr]">
-          <div>
-            <SectionEyebrow className="mb-5 text-brand-lime">Как мы работаем</SectionEyebrow>
+        <Container>
+          <div className="mb-12">
+            <SectionEyebrow className="mb-5 text-brand-lime">Ключевые преимущества</SectionEyebrow>
             <h2 className="heading-2 max-w-xl">
-              Точная вещь
+              Почему
               <br />
-              <span className="text-brand-lime">начинается здесь.</span>
+              <span className="text-brand-lime">выбирают нас.</span>
             </h2>
           </div>
-          <div className="grid gap-px bg-white/15 sm:grid-cols-3">
-            {values.map(({ icon: Icon, title, text }) => (
-              <article key={title} className="bg-brand-blue-dark p-6">
-                <Icon size={24} strokeWidth={1.5} />
-                <h3 className="mt-14 text-xl font-semibold tracking-[-.04em]">{title}</h3>
-                <p className="mt-4 text-sm leading-relaxed text-white/70">{text}</p>
+          <div className="grid gap-px bg-white/15 sm:grid-cols-2">
+            {advantages.map((advantage, index) => (
+              <article
+                key={advantage.title}
+                className={`bg-brand-blue-dark p-6 ${
+                  index === advantages.length - 1 && advantages.length % 2 === 1
+                    ? 'sm:col-span-2'
+                    : ''
+                }`}
+              >
+                <span className="font-mono text-xs text-brand-lime">0{index + 1}</span>
+                <h3 className="mt-10 text-xl font-semibold tracking-[-.04em]">{advantage.title}</h3>
+                <p className="mt-4 text-sm leading-relaxed text-white/70">{advantage.text}</p>
               </article>
             ))}
           </div>
@@ -96,6 +122,11 @@ export default function AboutPage() {
             <p>
               Подбираем конструкцию под задачу, пространство и ритм работы. Поэтому в каталоге есть
               и компактные модели для дома, и серьёзные системы для производства.
+            </p>
+            <p className="mt-4">
+              Большой складской запас помогает отгружать заказы оперативно — в любом объёме и
+              ассортименте. Мы активно развиваем дилерскую сеть по России и за рубежом и
+              ориентируемся на реальные потребности клиентов.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link

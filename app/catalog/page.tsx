@@ -6,6 +6,10 @@ import { CatalogBrowser } from '@/components/catalog-browser'
 import { ArrowUpRight } from 'lucide-react'
 import { getAllProducts, getCategories } from '@/lib/products'
 
+// См. комментарий в app/page.tsx — читает БД, без force-dynamic не соберётся
+// Docker-образ (на моменте `next build` ещё нет живой БД).
+export const dynamic = 'force-dynamic'
+
 export default async function CatalogPage() {
   const [categories, products] = await Promise.all([getCategories(), getAllProducts()])
 
@@ -23,7 +27,7 @@ export default async function CatalogPage() {
         <Container>
           <div className="flex flex-col justify-between gap-10 lg:flex-row lg:items-end">
             <div>
-              <SectionEyebrow className="mb-5 text-brand-muted">КАТАЛОГ ПРОДУКЦИИ</SectionEyebrow>
+              <SectionEyebrow className="mb-5 text-brand-muted">Каталог продукции</SectionEyebrow>
               <h1 className="heading-1 max-w-4xl">
                 Подберите
                 <br />
@@ -39,20 +43,20 @@ export default async function CatalogPage() {
 
           <div className="mt-24 grid gap-4 border-t border-brand-border pt-8 md:grid-cols-3">
             <div>
-              <SectionEyebrow className="text-brand-muted">КАТАЛОГ</SectionEyebrow>
+              <SectionEyebrow className="text-brand-muted">Каталог</SectionEyebrow>
               <p className="mt-4 text-sm leading-relaxed text-brand-muted-dim">
                 Полный ассортимент, паспорта изделий и актуальные характеристики соберём в рабочей
                 версии.
               </p>
             </div>
             <div>
-              <SectionEyebrow className="text-brand-muted">СЕРТИФИКАТЫ</SectionEyebrow>
+              <SectionEyebrow className="text-brand-muted">Сертификаты</SectionEyebrow>
               <p className="mt-4 text-sm leading-relaxed text-brand-muted-dim">
                 Документы на продукцию и материалы будут доступны на странице каждой модели.
               </p>
             </div>
             <div>
-              <SectionEyebrow className="text-brand-muted">НЕ НАШЛИ</SectionEyebrow>
+              <SectionEyebrow className="text-brand-muted">Не нашли? </SectionEyebrow>
               <Link
                 href="/contacts"
                 className="mt-4 inline-flex items-center gap-2 text-sm font-semibold"

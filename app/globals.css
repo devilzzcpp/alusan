@@ -61,6 +61,16 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/* Сайт только светлый (см. редизайн фазы 1) — тёмной темы в дизайне нет и
+   никогда не было, это сознательное решение, не недосмотр. Раньше здесь был
+   унаследованный от v0/shadcn `.dark`-класс + `@media (prefers-color-scheme:
+   dark)` блок, которые ничего не оформляли (сам сайт использует только
+   --brand-* токены ниже, не shadcn-токены) — просто незаметно переключали
+   системные --background/--foreground, которые local body-стиль наследовал.
+   В тёмной системной теме это ломало контраст по всему сайту (текст сливался
+   с полями форм, см. workflows/план-доработки.md) — убрали оба блока целиком,
+   не точечно патчили. `colorScheme: 'light'` в app/layout.tsx — та же мысль
+   на уровне viewport-meta, отключает тёмный рендер нативных виджетов браузера. */
 :root {
   color-scheme: light;
   --brand-lime: #9bc538;
@@ -113,78 +123,6 @@
   --sidebar-ring: oklch(0.708 0 0);
 }
 
-.dark {
-  color-scheme: dark;
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not(.light) {
-    color-scheme: dark;
-    --background: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
-    --card: oklch(0.205 0 0);
-    --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.205 0 0);
-    --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.922 0 0);
-    --primary-foreground: oklch(0.205 0 0);
-    --secondary: oklch(0.269 0 0);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.269 0 0);
-    --muted-foreground: oklch(0.708 0 0);
-    --accent: oklch(0.269 0 0);
-    --accent-foreground: oklch(0.985 0 0);
-    --destructive: oklch(0.704 0.191 22.216);
-    --border: oklch(1 0 0 / 10%);
-    --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.556 0 0);
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --sidebar: oklch(0.205 0 0);
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.488 0.243 264.376);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.269 0 0);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(1 0 0 / 10%);
-    --sidebar-ring: oklch(0.556 0 0);
-  }
-}
-
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -193,9 +131,8 @@
     scroll-behavior: smooth;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-brand-paper text-brand-ink;
     font-family: var(--font-body), Arial, Helvetica, sans-serif;
-    background: #ffffff;
   }
   h1,
   h2,
@@ -228,11 +165,11 @@
 /* Heading size scale — единые размеры вместо разных text-* на каждой странице.
    Начертание/трекинг/интерлиньяж уже заданы в base-правиле для h1/h2/h3 выше. */
 .heading-1 {
-  @apply text-6xl sm:text-7xl;
+  @apply text-6xl break-words sm:text-7xl;
 }
 
 .heading-2 {
-  @apply text-5xl sm:text-6xl;
+  @apply text-5xl break-words sm:text-6xl;
 }
 
 button,

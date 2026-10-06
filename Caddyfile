@@ -1,0 +1,3 @@
+alusan.pro, www.alusan.pro {
+	reverse_proxy app:3000
+}

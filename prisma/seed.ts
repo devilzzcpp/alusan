@@ -1,6 +1,8 @@
 import { PrismaClient } from '@prisma/client'
 import { categories, products } from './seed-data'
 import { articles } from './seed-articles'
+import { documents } from './seed-documents'
+import { hashPassword } from '../lib/password'
 
 const db = new PrismaClient()
 
@@ -50,8 +52,43 @@ async function main() {
     })
   }
 
+  for (const [index, document] of documents.entries()) {
+    const existing = await db.document.findFirst({ where: { title: document.title } })
+    if (existing) {
+      await db.document.update({
+        where: { id: existing.id },
+        data: { ...document, order: index },
+      })
+    } else {
+      await db.document.create({ data: { ...document, order: index } })
+    }
+  }
+
+  await db.siteSettings.upsert({
+    where: { id: 'singleton' },
+    update: {},
+    create: {
+      id: 'singleton',
+      phone: '+7 777 777-77-77',
+      email: 'hello@alusan.ru',
+      city: 'Ростов-на-Дону',
+      address: 'ул. Производственная, 7',
+    },
+  })
+
+  const adminEmail = process.env.ADMIN_EMAIL ?? 'admin@alusan.ru'
+  const existingAdmin = await db.adminUser.findUnique({ where: { email: adminEmail } })
+  if (!existingAdmin) {
+    const adminPassword = process.env.ADMIN_PASSWORD ?? 'admin12345'
+    const passwordHash = await hashPassword(adminPassword)
+    await db.adminUser.create({ data: { email: adminEmail, passwordHash, role: 'owner' } })
+    console.log(
+      `Создан админ-аккаунт: ${adminEmail} / ${adminPassword} — смените пароль в проде, повторный сид его не перезапишет.`,
+    )
+  }
+
   console.log(
-    `Готово: ${categories.length} категорий, ${products.length} товаров, ${articles.length} статей.`,
+    `Готово: ${categories.length} категорий, ${products.length} товаров, ${articles.length} статей, ${documents.length} документов, настройки сайта.`,
   )
 }
 

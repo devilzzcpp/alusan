@@ -33,6 +33,7 @@ export const categories = [
 
 export const products = [
   {
+    slug: 'stremyanka-kompaktnaya',
     code: 'Бытовая серия',
     name: 'Стремянка компактная',
     categorySlug: 'stremyanki',
@@ -42,6 +43,7 @@ export const products = [
     tone: 'from-[#b9cdd3] via-[#f2f4f1] to-[#7e929b]',
   },
   {
+    slug: 'stremyanka-vysokaya',
     code: 'Бытовая серия',
     name: 'Стремянка высокая',
     categorySlug: 'stremyanki',
@@ -51,6 +53,7 @@ export const products = [
     tone: 'from-[#d5d0c4] via-[#f6f2e9] to-[#968d7e]',
   },
   {
+    slug: 'lestnica-pristavnaya',
     code: 'Приставная серия',
     name: 'Лестница приставная',
     categorySlug: 'lestnicy',
@@ -60,6 +63,7 @@ export const products = [
     tone: 'from-[#aebcc7] via-[#e9edf0] to-[#748494]',
   },
   {
+    slug: 'lestnica-transformer',
     code: 'Шарнирная серия',
     name: 'Лестница трансформер',
     categorySlug: 'sharnirnye-lestnicy',
@@ -69,6 +73,7 @@ export const products = [
     tone: 'from-[#c5d7dc] via-[#eef3f2] to-[#879ba4]',
   },
   {
+    slug: 'vyshka-mobilnaya',
     code: 'Профессиональная серия',
     name: 'Вышка мобильная',
     categorySlug: 'vyshki-tury',
@@ -78,6 +83,7 @@ export const products = [
     tone: 'from-[#b7b5ae] via-[#e7e6df] to-[#85877f]',
   },
   {
+    slug: 'podmosti-rabochie',
     code: 'Рабочая серия',
     name: 'Подмости рабочие',
     categorySlug: 'podmosti',
@@ -87,6 +93,7 @@ export const products = [
     tone: 'from-[#bac8c3] via-[#eff2eb] to-[#778c82]',
   },
   {
+    slug: 'opory',
     code: 'Комплектующие',
     name: 'Опоры',
     categorySlug: 'accessories',
@@ -96,6 +103,7 @@ export const products = [
     tone: 'from-[#c9cec2] via-[#f1f1ea] to-[#8d9284]',
   },
   {
+    slug: 'poruchni',
     code: 'Комплектующие',
     name: 'Поручни',
     categorySlug: 'accessories',
@@ -105,6 +113,7 @@ export const products = [
     tone: 'from-[#c2ccce] via-[#eef2f2] to-[#849398]',
   },
   {
+    slug: 'kolesa',
     code: 'Комплектующие',
     name: 'Колёса',
     categorySlug: 'accessories',

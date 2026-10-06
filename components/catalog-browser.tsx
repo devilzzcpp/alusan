@@ -39,7 +39,7 @@ export function CatalogBrowser({
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="Найти по названию или категории"
-            className="w-full bg-transparent text-sm outline-none placeholder:text-brand-muted-faintest"
+            className="w-full bg-transparent text-sm text-brand-ink outline-none placeholder:text-brand-muted-faintest"
             aria-label="Поиск по каталогу"
           />
           <SlidersHorizontal size={17} className="text-brand-muted-faintest" />

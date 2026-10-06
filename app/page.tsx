@@ -1,4 +1,4 @@
-import { ArrowUpRight, MoveUpRight, Search, ShieldCheck } from 'lucide-react'
+import { ArrowUpRight, FileText, MoveUpRight, Search, ShieldCheck } from 'lucide-react'
 import { SiteFooter } from '@/components/site-footer'
 import { HomeHeader } from '@/components/home-header'
 import { Container } from '@/components/container'
@@ -6,13 +6,24 @@ import { SectionEyebrow } from '@/components/section-eyebrow'
 import { ProductCard } from '@/components/product-card'
 import { LeadForm } from '@/components/lead-form'
 import { getProductsByNames } from '@/lib/products'
+import { getSiteSettings, telHref } from '@/lib/settings'
+import { getAllDocuments } from '@/lib/documents'
+import { DocumentThumbnail } from '@/components/document-thumbnail'
+import { submitLead } from '@/lib/actions/leads'
+
+// Читает БД (товары, настройки) — без этого Next попытался бы отрендерить
+// страницу статически при `next build`, что требует живой БД в момент сборки
+// (при сборке Docker-образа её ещё нет). Контакты и так меняются через
+// /admin, так что кешировать тут особо нечего.
+export const dynamic = 'force-dynamic'
 
 export default async function HomePage() {
-  const homeProducts = await getProductsByNames([
-    'Лестница трансформер',
-    'Стремянка высокая',
-    'Вышка мобильная',
+  const [homeProducts, settings, documents] = await Promise.all([
+    getProductsByNames(['Лестница трансформер', 'Стремянка высокая', 'Вышка мобильная']),
+    getSiteSettings(),
+    getAllDocuments(),
   ])
+  const featuredDocuments = documents.slice(0, 3)
 
   return (
     <main className="min-h-screen overflow-hidden bg-brand-paper text-brand-ink">
@@ -23,15 +34,15 @@ export default async function HomePage() {
         className="relative flex min-h-[820px] items-end overflow-hidden bg-brand-surface-2 pt-28 text-white lg:min-h-[940px]"
       >
         <img
-          src="/hero-ladders.png"
+          src="/hero-ladders.jpg"
           alt="Алюминиевая лестница в архитектурном пространстве"
-          className="absolute inset-0 size-full object-cover opacity-65"
+          className="absolute inset-0 size-full object-cover object-[80%_center] opacity-65"
         />
         <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(8,12,15,.96),rgba(8,12,15,.58)_42%,rgba(8,12,15,.12)),linear-gradient(0deg,rgba(8,12,15,.78),transparent_55%)]" />
         <Container className="relative w-full pb-20 lg:pb-28">
-          <div className="mb-10 flex items-center gap-3 text-[10px] uppercase tracking-[0.28em] text-white/55">
-            <span className="size-2 rounded-full bg-brand-lime" /> Инженерные решения для высоты
-          </div>
+          <SectionEyebrow className="mb-10 text-white/70">
+            Инженерные решения для высоты
+          </SectionEyebrow>
           <h1 className="max-w-5xl text-[clamp(3.5rem,8vw,7.5rem)] leading-[.9] tracking-[-.04em]">
             Высота
             <br />
@@ -55,7 +66,7 @@ export default async function HomePage() {
         </Container>
         <div className="pointer-events-none absolute inset-0 opacity-30 [background-image:linear-gradient(rgba(201,255,61,.12)_1px,transparent_1px),linear-gradient(90deg,rgba(201,255,61,.12)_1px,transparent_1px)] [background-size:80px_80px] [mask-image:linear-gradient(to_bottom,transparent,black_35%,transparent)]" />
         <div className="absolute bottom-7 right-6 hidden font-mono text-[10px] text-white/40 lg:block">
-          Производство в Ростове-на-Дону
+          Производство: {settings.city}
         </div>
       </section>
 
@@ -101,8 +112,8 @@ export default async function HomePage() {
                 <span className="text-brand-muted-faintest">лестница.</span>
               </h2>
               <p className="mt-8 max-w-sm text-sm leading-relaxed text-brand-muted-dim">
-                Мы собрали в одном продукте точность производства, эргономику и визуальную тишину.
-                Никаких лишних деталей — только то, что делает жизнь выше.
+                alusan — молодая, динамично развивающаяся компания, которая делает ставку на
+                передовые технологии и свежий подход к производству.
               </p>
               <a
                 href="#about"
@@ -152,9 +163,15 @@ export default async function HomePage() {
 
       <section
         id="about"
-        className="border-b border-brand-border bg-brand-blue-dark py-20 text-white lg:py-28"
+        className="relative isolate flex min-h-[480px] items-end overflow-hidden border-b border-brand-border bg-brand-blue-dark py-20 text-white lg:min-h-[560px] lg:py-28"
       >
-        <Container className="flex flex-col gap-14 lg:flex-row lg:items-end lg:justify-between">
+        <img
+          src="/production-assembly.jpg"
+          alt="Сборка алюминиевых лестниц на производстве"
+          className="absolute inset-0 -z-20 size-full object-cover object-[75%_center] opacity-80"
+        />
+        <div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(3,58,107,.92),rgba(3,58,107,.55)_45%,rgba(3,58,107,.18)),linear-gradient(0deg,rgba(3,58,107,.8),transparent_55%)]" />
+        <Container className="relative flex w-full flex-col gap-14 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <SectionEyebrow className="mb-5 text-brand-lime">О производстве</SectionEyebrow>
             <h2 className="heading-2 max-w-3xl">
@@ -163,8 +180,8 @@ export default async function HomePage() {
             </h2>
           </div>
           <p className="max-w-sm text-lg leading-snug text-white/80">
-            Производство лестниц и алюминиевых конструкций в Ростове. Реальные факты о компании и
-            производстве появятся здесь после наполнения контентом.
+            Используем высокоточное оборудование европейского уровня: автоматизация процессов
+            позволяет добиваться стабильно высокого качества без влияния человеческого фактора.
           </p>
         </Container>
       </section>
@@ -186,27 +203,34 @@ export default async function HomePage() {
               Сертификаты и протоколы на материалы и готовые изделия.
             </p>
           </div>
-          <div className="grid gap-3 md:grid-cols-3">
-            <div className="border border-brand-border bg-white p-6">
-              <div className="mb-20 font-mono text-xs text-brand-muted-faintest">Документ</div>
-              <h3 className="text-2xl tracking-[-0.05em]">Сертификат соответствия</h3>
-              <p className="mt-3 text-sm text-brand-muted-dim">На лестницы и стремянки alusan</p>
+          {featuredDocuments.length > 0 && (
+            <div className="grid gap-3 md:grid-cols-3">
+              {featuredDocuments.map((document) => (
+                <a
+                  key={document.id}
+                  href={document.fileUrl ?? '/documents'}
+                  target={document.fileUrl ? '_blank' : undefined}
+                  rel={document.fileUrl ? 'noreferrer' : undefined}
+                  className="group block border border-brand-border bg-white p-6 transition hover:border-brand-border-strong"
+                >
+                  <span className="font-mono text-xs text-brand-muted-faintest">
+                    {document.category}
+                  </span>
+                  <h3 className="mt-3 text-2xl tracking-[-0.05em]">{document.title}</h3>
+                  <p className="mt-3 text-sm text-brand-muted-dim">{document.subtitle}</p>
+                  {document.fileUrl ? (
+                    <div className="mx-auto mt-6 w-full max-w-64">
+                      <DocumentThumbnail fileUrl={document.fileUrl} alt={document.title} />
+                    </div>
+                  ) : (
+                    <span className="mt-6 grid size-10 place-items-center rounded-full bg-brand-paper-alt text-brand-muted transition group-hover:bg-brand-lime/15">
+                      <FileText size={18} />
+                    </span>
+                  )}
+                </a>
+              ))}
             </div>
-            <div className="border border-brand-border bg-white p-6">
-              <div className="mb-20 font-mono text-xs text-brand-muted-faintest">Документ</div>
-              <h3 className="text-2xl tracking-[-0.05em]">Протокол испытаний</h3>
-              <p className="mt-3 text-sm text-brand-muted-dim">
-                Нагрузка, устойчивость, безопасность
-              </p>
-            </div>
-            <div className="border border-brand-border bg-white p-6">
-              <div className="mb-20 font-mono text-xs text-brand-muted-faintest">Документ</div>
-              <h3 className="text-2xl tracking-[-0.05em]">Паспорт изделия</h3>
-              <p className="mt-3 text-sm text-brand-muted-dim">
-                Комплект документов на каждую модель
-              </p>
-            </div>
-          </div>
+          )}
         </Container>
       </section>
 
@@ -223,27 +247,27 @@ export default async function HomePage() {
             <div>
               <p className="mb-3 text-xs text-brand-muted-faintest">Отдел продаж</p>
               <a
-                href="tel:+77777777777"
+                href={telHref(settings.phone)}
                 className="text-2xl tracking-[-0.05em] transition hover:text-brand-muted"
               >
-                +7 777 777-77-77
+                {settings.phone}
               </a>
             </div>
             <div>
               <p className="mb-3 text-xs text-brand-muted-faintest">Почта</p>
               <a
-                href="mailto:hello@alusan.ru"
+                href={`mailto:${settings.email}`}
                 className="text-2xl tracking-[-0.05em] transition hover:text-brand-muted"
               >
-                hello@alusan.ru
+                {settings.email}
               </a>
             </div>
             <div>
               <p className="mb-3 text-xs text-brand-muted-faintest">Производство</p>
               <p className="text-lg">
-                Ростов-на-Дону
+                {settings.city}
                 <br />
-                ул. Производственная, 7
+                {settings.address}
               </p>
             </div>
           </div>
@@ -265,8 +289,9 @@ export default async function HomePage() {
           <LeadForm
             tone="onBlue"
             submitLabel="Отправить заявку"
-            sentLabel="Заявка отправлена"
-            note="Демо-форма: подключим отправку заявок и уведомления в рабочей версии."
+            sentLabel="Заявка отправлена, скоро свяжемся."
+            note="Нажимая кнопку, вы соглашаетесь на обработку персональных данных."
+            action={submitLead.bind(null, 'homepage')}
             fields={[
               { type: 'text', name: 'name', label: 'Ваше имя', required: true },
               { type: 'tel', name: 'phone', label: 'Телефон', required: true },

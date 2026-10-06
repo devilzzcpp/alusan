@@ -6,6 +6,10 @@ import { Container } from '@/components/container'
 import { SectionEyebrow } from '@/components/section-eyebrow'
 import { getPublishedArticles } from '@/lib/articles'
 
+// См. комментарий в app/page.tsx — читает БД, без force-dynamic не соберётся
+// Docker-образ (на моменте `next build` ещё нет живой БД).
+export const dynamic = 'force-dynamic'
+
 const dateFormatter = new Intl.DateTimeFormat('ru-RU', {
   day: 'numeric',
   month: 'long',
@@ -22,7 +26,7 @@ export default async function ArticlesPage() {
       <SiteHeader backHref="/" backLabel="На главную" />
       <section className="py-24 lg:py-32">
         <Container width="narrow">
-          <SectionEyebrow className="mb-5 text-brand-muted">СТАТЬИ</SectionEyebrow>
+          <SectionEyebrow className="mb-5 text-brand-muted">Статьи</SectionEyebrow>
           <h1 className="heading-1 max-w-3xl">
             Как выбрать
             <br />

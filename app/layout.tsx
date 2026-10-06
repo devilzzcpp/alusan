@@ -1,4 +1,3 @@
-import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { JetBrains_Mono, Manrope } from 'next/font/google'
 import './globals.css'
@@ -28,12 +27,16 @@ export const metadata: Metadata = {
   },
 }
 
+// Сайт спроектирован только в светлой теме (см. редизайн фазы 1) — тёмная
+// половина досталась от исходного v0/shadcn-шаблона и никогда не была
+// частью дизайна. `colorScheme: 'light dark'` заставлял браузер в тёмной
+// системной теме подставлять свою тёмную тему для нативных элементов формы
+// (инпуты/селекты/скроллбары) поверх наших светлых стилей — источник серии
+// багов "текст сливается с фоном". Зафиксировали `'light'` — браузер больше
+// не подставляет тёмную тему независимо от настроек ОС пользователя.
 export const viewport: Viewport = {
-  colorScheme: 'light dark',
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: 'white' },
-    { media: '(prefers-color-scheme: dark)', color: 'black' },
-  ],
+  colorScheme: 'light',
+  themeColor: 'white',
 }
 
 export default function RootLayout({
@@ -43,10 +46,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ru" className={`${manrope.variable} ${jetbrainsMono.variable}`}>
-      <body className="antialiased">
-        {children}
-        {process.env.NODE_ENV === 'production' && <Analytics />}
-      </body>
+      <body className="antialiased">{children}</body>
     </html>
   )
 }

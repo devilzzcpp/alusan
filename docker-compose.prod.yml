@@ -1,0 +1,67 @@
+# Продакшен-стек: Postgres + Next.js + Caddy (авто-HTTPS). Для локальной
+# разработки используется docker-compose.yml (только Postgres), не этот файл.
+# Инструкция по деплою — workflows/деплой.md.
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: alusan
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: alusan
+    volumes:
+      - alusan_prod_db:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U alusan']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # Применяет миграции и сидирует БД при каждом деплое, завершается — app
+  # стартует только после успешного завершения (service_completed_successfully).
+  # db:seed идемпотентный (upsert каталога/статей/документов, create-once для
+  # админа/настроек) — безопасно гонять на каждом деплое, не только при первом.
+  # Это важно: без автосида есть окно между стартом app и ручным сидом, когда
+  # первый заход на ещё не существующую страницу товара/категории закэширует
+  # 404 — он не рассосётся сам даже после того как данные появятся.
+  migrate:
+    build:
+      context: .
+      target: builder
+    env_file: .env.production
+    depends_on:
+      db:
+        condition: service_healthy
+    command: sh -c "npx prisma migrate deploy && pnpm db:seed"
+    restart: 'no'
+
+  app:
+    build:
+      context: .
+      target: runner
+    restart: unless-stopped
+    env_file: .env.production
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    expose:
+      - '3000'
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - app
+
+volumes:
+  alusan_prod_db:
+  caddy_data:
+  caddy_config:

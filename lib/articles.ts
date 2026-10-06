@@ -1,4 +1,5 @@
 import { db } from '@/lib/db'
+import type { ArticleStatus } from '@prisma/client'
 
 export type ArticleSummary = {
   slug: string
@@ -19,14 +20,6 @@ export async function getPublishedArticles(): Promise<ArticleSummary[]> {
   }) as Promise<ArticleSummary[]>
 }
 
-export async function getPublishedArticleSlugs(): Promise<string[]> {
-  const rows = await db.article.findMany({
-    where: { status: 'published' },
-    select: { slug: true },
-  })
-  return rows.map((row) => row.slug)
-}
-
 export async function getArticleBySlug(slug: string): Promise<Article | null> {
   const article = await db.article.findFirst({
     where: { slug, status: 'published' },
@@ -39,4 +32,32 @@ export async function getArticleBySlug(slug: string): Promise<Article | null> {
     body: article.body,
     publishedAt: article.publishedAt,
   }
+}
+
+// Для /admin — все статьи (включая draft), с полями для формы редактирования.
+export type AdminArticle = {
+  id: string
+  slug: string
+  title: string
+  excerpt: string
+  body: string
+  status: ArticleStatus
+  publishedAt: Date | null
+  updatedAt: Date
+}
+
+export async function getAllArticlesForAdmin(): Promise<AdminArticle[]> {
+  return db.article.findMany({
+    orderBy: { createdAt: 'desc' },
+    select: {
+      id: true,
+      slug: true,
+      title: true,
+      excerpt: true,
+      body: true,
+      status: true,
+      publishedAt: true,
+      updatedAt: true,
+    },
+  })
 }

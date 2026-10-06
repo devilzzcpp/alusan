@@ -2,13 +2,16 @@ import { db } from '@/lib/db'
 
 export type Product = {
   id: string
+  slug: string
   code: string
   name: string
   category: string
+  categorySlug: string
   description: string
   spec: string
   material: string
   tone: string
+  images: string[]
 }
 
 export type Category = {
@@ -16,29 +19,35 @@ export type Category = {
   slug: string
   title: string
   description: string
+  order: number
 }
 
 type ProductRow = {
   id: string
+  slug: string
   code: string
   name: string
   description: string
   spec: string
   material: string
   tone: string
-  category: { title: string }
+  images: string[]
+  category: { title: string; slug: string }
 }
 
 function toProduct(row: ProductRow): Product {
   return {
     id: row.id,
+    slug: row.slug,
     code: row.code,
     name: row.name,
     category: row.category.title,
+    categorySlug: row.category.slug,
     description: row.description,
     spec: row.spec,
     material: row.material,
     tone: row.tone,
+    images: row.images,
   }
 }
 
@@ -58,6 +67,18 @@ export async function getAllProducts(): Promise<Product[]> {
   return rows.map(toProduct)
 }
 
+// Для /admin — та же выборка, но с categoryId для формы редактирования
+// (публичный Product намеренно сплющивает категорию до строки-названия).
+export type AdminProduct = Product & { categoryId: string }
+
+export async function getAllProductsForAdmin(): Promise<AdminProduct[]> {
+  const rows = await db.product.findMany({
+    include: { category: true },
+    orderBy: { order: 'asc' },
+  })
+  return rows.map((row) => ({ ...toProduct(row), categoryId: row.categoryId }))
+}
+
 export async function getProductsByCategorySlug(slug: string): Promise<Product[]> {
   const rows = await db.product.findMany({
     where: { category: { slug } },
@@ -65,6 +86,14 @@ export async function getProductsByCategorySlug(slug: string): Promise<Product[]
     orderBy: { order: 'asc' },
   })
   return rows.map(toProduct)
+}
+
+export async function getProductBySlug(slug: string): Promise<Product | null> {
+  const row = await db.product.findUnique({
+    where: { slug },
+    include: { category: true },
+  })
+  return row ? toProduct(row) : null
 }
 
 export async function getProductsByNames(names: string[]): Promise<Product[]> {

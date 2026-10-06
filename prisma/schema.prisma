@@ -20,12 +20,14 @@ model Category {
 
 model Product {
   id          String   @id @default(cuid())
+  slug        String   @unique
   code        String
   name        String
   description String
   spec        String
   material    String
   tone        String
+  images      String[] @default([])
   order       Int      @default(0)
   publishedAt DateTime @default(now())
 
@@ -73,11 +75,65 @@ model Lead {
   @@map("leads")
 }
 
+enum AdminRole {
+  owner
+  manager
+}
+
 model AdminUser {
-  id           String   @id @default(cuid())
-  email        String   @unique
+  id           String    @id @default(cuid())
+  email        String    @unique
+  phone        String?   @unique
+  firstName    String?
+  lastName     String?
   passwordHash String
-  createdAt    DateTime @default(now())
+  role         AdminRole @default(manager)
+  createdAt    DateTime  @default(now())
 
   @@map("admin_users")
+}
+
+// Единственная строка с контактами сайта (телефон/почта/адрес) — редактируется
+// из админки позже, фронт уже читает отсюда вместо хардкода.
+model SiteSettings {
+  id      String @id @default("singleton")
+  phone   String
+  email   String
+  city    String
+  address String
+
+  @@map("site_settings")
+}
+
+// Карточки на /documents (сертификаты/паспорта/протоколы). category — просто
+// строка-ярлык вкладки ("Сертификаты"/"Паспорта"/"Документация"), не отдельная
+// таблица — вкладок всегда немного и они не самостоятельная сущность с URL,
+// как категории каталога.
+model Document {
+  id       String  @id @default(cuid())
+  title    String
+  subtitle String
+  category String
+  code     String
+  color    String
+  fileUrl  String?
+  order    Int     @default(0)
+
+  @@map("documents")
+}
+
+// Файлы (фото товаров, PDF документов) — храним прямо в БД как bytea, не во
+// внешнем сторедже: на масштабе этого проекта (десятки файлов, мегабайты, не
+// гигабайты) это проще, чем поднимать S3-совместимое хранилище ради пары
+// ключей доступа. Отдаётся через app/api/assets/[id]/route.ts, Product.imageUrl
+// и Document.fileUrl хранят ссылку на этот роут (`/api/assets/<id>`).
+model Asset {
+  id        String   @id @default(cuid())
+  filename  String
+  mimeType  String
+  data      Bytes
+  size      Int
+  createdAt DateTime @default(now())
+
+  @@map("assets")
 }

@@ -5,7 +5,7 @@ import { Container } from '@/components/container'
 import { SectionEyebrow } from '@/components/section-eyebrow'
 import { ProductCard } from '@/components/product-card'
 import { ArrowUpRight, Check, Download } from 'lucide-react'
-import { getCategories, getCategoryBySlug, getProductsByCategorySlug } from '@/lib/products'
+import { getCategoryBySlug, getProductsByCategorySlug } from '@/lib/products'
 
 export default async function CategoryPage({ params }: { params: Promise<{ category: string }> }) {
   const { category: slug } = await params
@@ -19,7 +19,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
       <section className="py-24 lg:py-32">
         <Container>
           <SectionEyebrow className="mb-5 text-brand-muted">
-            КАТАЛОГ / {category.title.toUpperCase()}
+            Каталог / {category.title}
           </SectionEyebrow>
           <div className="grid gap-12 lg:grid-cols-[1.2fr_.8fr] lg:items-end">
             <h1 className="heading-1">{category.title}</h1>
@@ -28,12 +28,12 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
             </p>
           </div>
           <div className="mt-20 grid gap-3 border-t border-brand-border pt-5 md:grid-cols-3">
-            {categoryProducts.map((product, index) => (
+            {categoryProducts.map((product) => (
               <ProductCard
                 key={product.id}
                 product={product}
                 variant="category"
-                label={`${slug.toUpperCase()} / 0${index + 1}`}
+                label={product.code}
               />
             ))}
           </div>
@@ -63,9 +63,12 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
   )
 }
 
+// Пустой список: категории редактируются из админки и список на момент
+// сборки всё равно устареет, плюс обращение к БД во время `next build`
+// падает при сборке Docker-образа (БД ещё не поднята на этом шаге).
+// dynamicParams: true ниже — страницы рендерятся по требованию и кешируются.
 export async function generateStaticParams() {
-  const categories = await getCategories()
-  return categories.map((category) => ({ category: category.slug }))
+  return []
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ category: string }> }) {
@@ -74,4 +77,6 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
   return { title: `${category?.title ?? 'Каталог'} — alusan` }
 }
 
-export const dynamicParams = false
+// true (по умолчанию) — категории теперь создаются из админки, новая
+// категория должна открываться по URL сразу, без пересборки сайта
+export const dynamicParams = true

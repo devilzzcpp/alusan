@@ -36,4 +36,3 @@ pnpm-debug.log*
 # not meant for production use. Final selected assets live in public/brand/.
 # Our own planning docs (project map, roadmap) stay tracked.
 workflows/*
-!workflows/*.md

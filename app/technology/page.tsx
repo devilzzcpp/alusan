@@ -11,13 +11,17 @@ const specs = [
   { label: '03 / CONTROL', value: '100', unit: '%', caption: 'контроль каждого изделия' },
 ]
 
+// Сам текст на странице хардкод, но рендерится <SiteFooter /> (он читает
+// настройки сайта из БД) — тот же build-time-без-БД нюанс, см. app/page.tsx.
+export const dynamic = 'force-dynamic'
+
 export default function TechnologyPage() {
   return (
     <main className="min-h-screen bg-brand-paper text-brand-ink">
       <SiteHeader backHref="/" backLabel="На главную" />
       <section className="py-24 lg:py-36">
         <Container>
-          <SectionEyebrow className="mb-5 text-brand-muted">02 / СИСТЕМА</SectionEyebrow>
+          <SectionEyebrow className="mb-5 text-brand-muted">02 / Система</SectionEyebrow>
           <h1 className="heading-1 max-w-5xl">
             Инженерия,
             <br />
