@@ -31,10 +31,6 @@ export function ProductCard({
           <div
             className={`relative flex h-full min-h-[260px] flex-col justify-between ${featured ? 'md:min-h-[540px]' : ''}`}
           >
-            <div className="flex justify-between font-mono text-[10px] text-brand-ink/60">
-              <span>Коллекция</span>
-              <span>Изделие</span>
-            </div>
             <div className="absolute inset-x-0 top-1/2 h-px bg-brand-ink/15" />
             {hero ? (
               <img

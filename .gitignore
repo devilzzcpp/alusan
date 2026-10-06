@@ -35,4 +35,8 @@ pnpm-debug.log*
 # Client-provided raw design sources (docx/ai/cdr/pdf/etc.) — reference only,
 # not meant for production use. Final selected assets live in public/brand/.
 # Our own planning docs (project map, roadmap) stay tracked.
-workflows/*
+/workflows/
+
+# результаты парсинга
+/scraped/
+/scripts/

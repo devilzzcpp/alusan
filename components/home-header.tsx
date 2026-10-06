@@ -20,7 +20,7 @@ export function HomeHeader() {
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/15 bg-brand-surface-1/85 text-white backdrop-blur-xl">
       <Container className="flex h-[76px] items-center justify-between">
         <Link href="#top" aria-label="АЛЮСАН — на главную">
-          <img src="/brand/logo-white.svg" alt="АЛЮСАН" className="h-9 w-auto" />
+          <img src="/brand/logo-white.svg" alt="АЛЮСАН" className="h-11 w-auto" />
         </Link>
         <nav className="hidden items-center gap-8 text-sm font-medium tracking-[-0.02em] text-white/70 lg:flex">
           {navLinks.map((link) => (

@@ -74,7 +74,7 @@ export default async function HomePage() {
         <Container>
           <div className="mb-12 flex flex-col justify-between gap-7 lg:flex-row lg:items-end">
             <div>
-              <SectionEyebrow className="mb-5 text-brand-muted">Коллекция изделий</SectionEyebrow>
+              <SectionEyebrow className="mb-5 text-brand-muted">Каталог изделий</SectionEyebrow>
               <h2 className="heading-2 max-w-3xl">
                 Конструкции,
                 <br />
