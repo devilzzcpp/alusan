@@ -27,10 +27,18 @@ RUN addgroup --system --gid 1001 nodejs \
 COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+# Полный node_modules (а не обрезанный standalone-трейс) — нужен CLI `prisma`
+# и `tsx` для миграций/сида при старте контейнера, см. docker-entrypoint.sh.
+# Именно из builder, не deps — там уже выполнен `prisma generate` (сгенерённый
+# клиент нужен сиду), в deps его ещё нет.
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules ./node_modules
+COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
+COPY --from=builder --chown=nextjs:nodejs /app/lib ./lib
+COPY --chown=nextjs:nodejs docker-entrypoint.sh ./
 
 USER nextjs
 EXPOSE 3000
 ENV PORT=3000
 ENV HOSTNAME=0.0.0.0
 
-CMD ["node", "server.js"]
+ENTRYPOINT ["sh", "docker-entrypoint.sh"]
