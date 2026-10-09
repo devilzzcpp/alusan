@@ -23,6 +23,7 @@ function readProductFields(formData: FormData) {
     material: String(formData.get('material') ?? '').trim(),
     tone: String(formData.get('tone') ?? '').trim(),
     categoryId: String(formData.get('categoryId') ?? '').trim(),
+    featured: formData.get('featured') === 'on',
   }
 }
 

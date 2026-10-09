@@ -5,7 +5,7 @@ import { Container } from '@/components/container'
 import { SectionEyebrow } from '@/components/section-eyebrow'
 import { ProductCard } from '@/components/product-card'
 import { LeadForm } from '@/components/lead-form'
-import { getProductsByNames } from '@/lib/products'
+import { getFeaturedProducts } from '@/lib/products'
 import { getSiteSettings, telHref } from '@/lib/settings'
 import { getAllDocuments } from '@/lib/documents'
 import { DocumentThumbnail } from '@/components/document-thumbnail'
@@ -19,7 +19,7 @@ export const dynamic = 'force-dynamic'
 
 export default async function HomePage() {
   const [homeProducts, settings, documents] = await Promise.all([
-    getProductsByNames(['Лестница трансформер', 'Стремянка высокая', 'Вышка мобильная']),
+    getFeaturedProducts(3),
     getSiteSettings(),
     getAllDocuments(),
   ])
@@ -290,14 +290,6 @@ export default async function HomePage() {
             fields={[
               { type: 'text', name: 'name', label: 'Ваше имя', required: true },
               { type: 'tel', name: 'phone', label: 'Телефон', required: true },
-              {
-                type: 'select',
-                name: 'type',
-                label: 'Тип задачи',
-                placeholder: 'Выберите решение',
-                options: ['Стремянка для дома', 'Лестница для бизнеса', 'Профессиональная вышка'],
-                span: 2,
-              },
             ]}
           />
         </Container>

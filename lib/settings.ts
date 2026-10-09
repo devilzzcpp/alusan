@@ -5,6 +5,8 @@ export type SiteSettings = {
   email: string
   city: string
   address: string
+  legalName: string
+  inn: string
 }
 
 const fallback: SiteSettings = {
@@ -12,6 +14,8 @@ const fallback: SiteSettings = {
   email: 'hello@alusan.ru',
   city: 'Ростов-на-Дону',
   address: 'ул. Производственная, 7',
+  legalName: '',
+  inn: '',
 }
 
 export async function getSiteSettings(): Promise<SiteSettings> {

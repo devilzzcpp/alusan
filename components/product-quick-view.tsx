@@ -33,7 +33,7 @@ export function ProductQuickView({ product, onClose }: { product: Product; onClo
       onClick={onClose}
     >
       <div
-        className="grid max-h-[85vh] w-full max-w-3xl overflow-hidden rounded-[2px] bg-white sm:grid-cols-2"
+        className="grid max-h-[85vh] w-full max-w-3xl overflow-y-auto overflow-x-hidden rounded-[2px] bg-white sm:grid-cols-2"
         onClick={(event) => event.stopPropagation()}
       >
         <div
@@ -110,7 +110,7 @@ export function ProductQuickView({ product, onClose }: { product: Product; onClo
           </div>
           <Link
             href={`/catalog/${product.categorySlug}/${product.slug}`}
-            className="mt-6 inline-flex items-center gap-2 self-start rounded-full bg-brand-ink px-6 py-4 text-xs font-bold uppercase tracking-[.16em] text-white transition hover:bg-brand-blue sm:mt-auto"
+            className="mt-6 inline-flex items-center gap-2 self-start rounded-full bg-brand-ink px-6 py-4 text-xs font-bold uppercase tracking-[.16em] text-white transition hover:bg-brand-blue"
           >
             Подробнее о товаре <ArrowUpRight size={15} />
           </Link>

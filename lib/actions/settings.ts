@@ -13,6 +13,8 @@ export async function updateSiteSettings(
   const email = String(formData.get('email') ?? '').trim()
   const city = String(formData.get('city') ?? '').trim()
   const address = String(formData.get('address') ?? '').trim()
+  const legalName = String(formData.get('legalName') ?? '').trim()
+  const inn = String(formData.get('inn') ?? '').trim()
 
   if (!phone || !email || !city || !address) {
     return { ok: false, error: 'Заполните все поля' }
@@ -20,8 +22,8 @@ export async function updateSiteSettings(
 
   await db.siteSettings.upsert({
     where: { id: 'singleton' },
-    update: { phone, email, city, address },
-    create: { id: 'singleton', phone, email, city, address },
+    update: { phone, email, city, address, legalName, inn },
+    create: { id: 'singleton', phone, email, city, address, legalName, inn },
   })
 
   revalidatePath('/', 'layout')

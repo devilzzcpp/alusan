@@ -28,6 +28,7 @@ model Product {
   material    String
   tone        String
   images      String[] @default([])
+  featured    Boolean  @default(false)
   order       Int      @default(0)
   publishedAt DateTime @default(now())
 
@@ -96,11 +97,13 @@ model AdminUser {
 // Единственная строка с контактами сайта (телефон/почта/адрес) — редактируется
 // из админки позже, фронт уже читает отсюда вместо хардкода.
 model SiteSettings {
-  id      String @id @default("singleton")
-  phone   String
-  email   String
-  city    String
-  address String
+  id        String @id @default("singleton")
+  phone     String
+  email     String
+  city      String
+  address   String
+  legalName String @default("")
+  inn       String @default("")
 
   @@map("site_settings")
 }

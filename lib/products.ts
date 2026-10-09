@@ -12,6 +12,7 @@ export type Product = {
   material: string
   tone: string
   images: string[]
+  featured: boolean
 }
 
 export type Category = {
@@ -32,6 +33,7 @@ type ProductRow = {
   material: string
   tone: string
   images: string[]
+  featured: boolean
   category: { title: string; slug: string }
 }
 
@@ -48,6 +50,7 @@ function toProduct(row: ProductRow): Product {
     material: row.material,
     tone: row.tone,
     images: row.images,
+    featured: row.featured,
   }
 }
 
@@ -96,11 +99,14 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
   return row ? toProduct(row) : null
 }
 
-export async function getProductsByNames(names: string[]): Promise<Product[]> {
+// Для тизера на главной — какие товары показывать, решает чекбокс "Показывать
+// на главной" в админке (Product.featured), а не хардкод названий в коде.
+export async function getFeaturedProducts(limit: number): Promise<Product[]> {
   const rows = await db.product.findMany({
-    where: { name: { in: names } },
+    where: { featured: true },
     include: { category: true },
+    orderBy: { order: 'asc' },
+    take: limit,
   })
-  const byName = new Map(rows.map((row) => [row.name, toProduct(row)]))
-  return names.map((name) => byName.get(name)).filter((product): product is Product => !!product)
+  return rows.map(toProduct)
 }

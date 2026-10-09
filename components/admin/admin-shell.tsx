@@ -553,6 +553,15 @@ function ProductForm({
             ))}
           </select>
         </label>
+        <label className="flex items-center gap-2 text-sm">
+          <input
+            type="checkbox"
+            name="featured"
+            defaultChecked={product?.featured ?? false}
+            className="size-4 rounded border-brand-border"
+          />
+          <span className="text-xs font-medium text-brand-muted-dim">Показывать на главной</span>
+        </label>
       </div>
       <label className="mt-5 block text-sm">
         <span className="mb-2 block text-xs font-medium text-brand-muted-dim">Описание</span>
@@ -1160,6 +1169,8 @@ function SettingsTab({ settings }: { settings: SiteSettings }) {
           <Field label="Email" name="email" type="email" defaultValue={settings.email} />
           <Field label="Город" name="city" defaultValue={settings.city} />
           <Field label="Адрес" name="address" defaultValue={settings.address} />
+          <Field label="Юрлицо" name="legalName" defaultValue={settings.legalName} />
+          <Field label="ИНН" name="inn" defaultValue={settings.inn} />
         </div>
         <button
           type="submit"
@@ -1349,11 +1360,13 @@ function Field({
   name,
   defaultValue,
   type = 'text',
+  placeholder,
 }: {
   label: string
   name: string
   defaultValue: string
   type?: string
+  placeholder?: string
 }) {
   return (
     <label className="block text-sm">
@@ -1362,6 +1375,7 @@ function Field({
         type={type}
         name={name}
         defaultValue={defaultValue}
+        placeholder={placeholder}
         className="w-full rounded-lg border border-brand-border bg-white px-4 py-3 text-sm text-brand-ink outline-none focus:border-brand-blue"
       />
     </label>

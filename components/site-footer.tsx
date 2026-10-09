@@ -43,6 +43,8 @@ export async function SiteFooter() {
       </Container>
       <Container className="mt-10 border-t border-white/10 pt-4 text-xs text-white/30">
         alusan · {settings.city}
+        {settings.legalName && ` · ${settings.legalName}`}
+        {settings.inn && ` · ИНН ${settings.inn}`}
       </Container>
     </footer>
   )

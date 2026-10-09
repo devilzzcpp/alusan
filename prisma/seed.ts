@@ -69,10 +69,12 @@ async function main() {
     update: {},
     create: {
       id: 'singleton',
-      phone: '+7 777 777-77-77',
-      email: 'hello@alusan.ru',
-      city: 'Ростов-на-Дону',
-      address: 'ул. Производственная, 7',
+      phone: '+7 (903) 726-63-58',
+      email: 'alusunn@yandex.ru',
+      city: 'Гуково',
+      address: '347880, Ростовская область, Пригородная ул., зд. 6, помещение 3, ком. 13',
+      legalName: 'ООО «АЛЮСАН»',
+      inn: '6144023539',
     },
   })
 
